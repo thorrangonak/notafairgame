@@ -458,6 +458,12 @@ function updateDiceButton() {
   } else if (isMyTurn) {
     note.textContent = '🎯 Senin sıran — zar at!';
     note.className = 'turn-note my-turn';
+    // Mobilde dice butonuna scroll
+    if (window.innerWidth <= 860) {
+      setTimeout(() => {
+        document.getElementById('btn-roll')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 200);
+    }
   } else {
     const curPlayer = STATE.players.find(p => p.id === STATE.currentPlayer);
     note.textContent = curPlayer
@@ -521,6 +527,10 @@ function handleDiceRolled(msg) {
 
   // Move token with delay
   setTimeout(() => {
+    // Mobilde tahtayı göster
+    if (window.innerWidth <= 860) {
+      document.querySelector('.board-wrap')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
     // Update state
     renderGameState();
 

@@ -785,26 +785,139 @@ input[type="text"]::placeholder { color: #4a5568; }
 .stat-psikoloji { background: linear-gradient(90deg, #ec4899, #db2777); }
 
 /* ============================================================ RESPONSIVE */
+
 @media (max-width: 1200px) {
   :root { --board-sq: 74px; }
   .panel-left { width: 190px; }
   .panel-right { width: 180px; }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1050px) {
   :root { --board-sq: 62px; }
   .panel-left { width: 170px; }
   .panel-right { width: 160px; }
   .square-emoji { font-size: 1rem; }
+  .square-effect { display: none; }
 }
 
-@media (max-width: 800px) {
+/* ── Tablet / Mobile Landscape ─────────────────────────────── */
+@media (max-width: 860px) {
+  :root { --board-sq: 52px; }
   body { overflow: auto; }
+
+  /* Lobby */
+  .lobby-container { width: 100%; padding: 0 16px; }
+
+  /* Waiting */
+  .waiting-container { padding: 0 12px; }
+  .character-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Game – stack vertically */
+  .screen#screen-game { height: auto; min-height: 100vh; }
   .screen#screen-game.active { flex-direction: column; overflow-y: auto; height: auto; min-height: 100vh; }
   .game-layout { flex-direction: column; height: auto; }
-  .panel { width: 100% !important; border: none; border-bottom: 1px solid var(--border); }
-  .board-wrap { padding: 16px; overflow-x: auto; }
-  :root { --board-sq: 54px; }
+
+  /* Panel order: right (dice+stats) → board → left (players+log) */
+  .panel-right {
+    order: 1;
+    width: 100% !important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+    padding: 12px;
+  }
+  .board-wrap { order: 2; overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 10px 8px; }
+  .panel-left  { order: 3; width: 100% !important; border: none; border-top: 1px solid var(--border); }
+
+  .my-stats-section { flex: 1; min-width: 180px; }
+  .dice-section { flex-direction: column; align-items: center; min-width: 150px; padding: 0; gap: 8px; }
+
+  .square-effect { display: none; }
+  .square-name { font-size: 0.42rem; }
+}
+
+/* ── Mobile Portrait ────────────────────────────────────────── */
+@media (max-width: 560px) {
+  :root { --board-sq: 38px; }
+
+  /* Lobby */
+  .logo-main { font-size: 2.2rem; letter-spacing: 1px; }
+  .logo-sub  { font-size: 1rem; letter-spacing: 5px; }
+  .lobby-card { padding: 20px 16px; }
+
+  /* Waiting */
+  .character-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .char-card  { padding: 10px 8px; }
+  .char-emoji { font-size: 1.8rem; }
+  .char-name  { font-size: 0.72rem; }
+  .char-desc  { font-size: 0.62rem; }
+
+  /* Board squares */
+  .square-emoji { font-size: 0.75rem; }
+  .square-name  { font-size: 0.32rem; letter-spacing: 0; line-height: 1.1; }
+  .token { width: 10px; height: 10px; font-size: 0.4rem; border-width: 1px; }
+  .board-center-scales { font-size: 1.5rem; margin-bottom: 2px; }
+  .board-center-title  { font-size: 0.88rem; }
+  .board-center-sub    { font-size: 0.5rem; letter-spacing: 2px; }
+
+  /* Panels */
+  .panel-right { flex-direction: column; }
+
+  /* Dice – sticky bottom bar */
+  .dice-section {
+    position: sticky;
+    bottom: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 10px 16px;
+    z-index: 100;
+    width: 100%;
+    gap: 12px;
+  }
+  .dice-wrap { flex-direction: row; align-items: center; gap: 10px; }
+  .dice { width: 46px; height: 46px; font-size: 1.8rem; border-radius: 10px; }
+  .dice-value { font-size: 0.85rem; min-height: 18px; }
+  .btn-dice { padding: 10px 20px; flex: 1; font-size: 0.9rem; }
+  .turn-note { display: none; }
+
+  /* My stats – 2-col compact grid */
+  #my-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .my-stat-row { gap: 4px; }
+  .my-stat-info .my-stat-bar { height: 4px; margin-top: 1px; }
+  .my-stat-val { font-size: 0.85rem; width: 16px; }
+
+  /* Turn badge */
+  .turn-badge { font-size: 0.88rem; padding: 10px; }
+
+  /* Left panel */
+  .panel-left { padding: 10px; }
+  #game-log { max-height: 120px; }
+
+  /* Game over */
+  .gameover-container { padding: 16px 0; }
+  .gameover-header h1 { font-size: 1.8rem; }
+  .gameover-icon { font-size: 3rem; }
+  .score-card { padding: 12px; gap: 10px; }
+  .score-stats { flex-wrap: wrap; }
+
+  /* Modals */
+  .modal-card { padding: 20px 16px; width: 95%; }
+  .system-effects-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Very Small Phones (≤380px) ─────────────────────────────── */
+@media (max-width: 380px) {
+  :root { --board-sq: 34px; }
+  .logo-main { font-size: 1.8rem; }
+  .board-center-title  { font-size: 0.72rem; }
+  .board-center-sub    { font-size: 0.42rem; }
+  .board-center-scales { font-size: 1.2rem; }
+  .square-name { font-size: 0.28rem; }
 }
 
 /* ============================================================ SCROLLBAR */
