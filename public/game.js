@@ -3,53 +3,67 @@
 // ============================================================
 
 const CHARACTERS = {
-  kirsal_kiz:   { name: 'Kırsal Bölge Kız Öğrenci', emoji: '👧', color: '#f472b6', stats: { para:1, egitim:1, saglik:2, sosyalHak:1, psikoloji:2 } },
-  sehirli_erkek:{ name: 'Şehirli Erkek Öğrenci',    emoji: '🧑', color: '#60a5fa', stats: { para:3, egitim:3, saglik:3, sosyalHak:3, psikoloji:3 } },
-  gocmen_isci:  { name: 'Göçmen İşçi',              emoji: '👷', color: '#fb923c', stats: { para:1, egitim:2, saglik:2, sosyalHak:1, psikoloji:3 } },
-  ust_sinif:    { name: 'Üst Sınıf Çocuk',          emoji: '👑', color: '#fbbf24', stats: { para:5, egitim:4, saglik:5, sosyalHak:4, psikoloji:4 } },
-  engelli:      { name: 'Engelli Birey',             emoji: '♿', color: '#a78bfa', stats: { para:2, egitim:2, saglik:1, sosyalHak:1, psikoloji:3 } },
-  tek_ebeveyn:  { name: 'Tek Ebeveynli Çocuk',      emoji: '🧒', color: '#34d399', stats: { para:2, egitim:2, saglik:3, sosyalHak:2, psikoloji:2 } }
+  kirsal_kiz:   { name: 'Kırsal Bölge Kız Öğrenci', emoji: '👧', cardIcon: 'user',          color: '#f472b6', stats: { para:1, egitim:1, saglik:2, sosyalHak:1, psikoloji:2 } },
+  sehirli_erkek:{ name: 'Şehirli Erkek Öğrenci',    emoji: '🧑', cardIcon: 'user-round',    color: '#60a5fa', stats: { para:3, egitim:3, saglik:3, sosyalHak:3, psikoloji:3 } },
+  gocmen_isci:  { name: 'Göçmen İşçi',              emoji: '👷', cardIcon: 'hard-hat',      color: '#fb923c', stats: { para:1, egitim:2, saglik:2, sosyalHak:1, psikoloji:3 } },
+  ust_sinif:    { name: 'Üst Sınıf Çocuk',          emoji: '👑', cardIcon: 'crown',         color: '#fbbf24', stats: { para:5, egitim:4, saglik:5, sosyalHak:4, psikoloji:4 } },
+  engelli:      { name: 'Engelli Birey',             emoji: '♿', cardIcon: 'accessibility', color: '#a78bfa', stats: { para:2, egitim:2, saglik:1, sosyalHak:1, psikoloji:3 } },
+  tek_ebeveyn:  { name: 'Tek Ebeveynli Çocuk',      emoji: '🧒', cardIcon: 'baby',          color: '#34d399', stats: { para:2, egitim:2, saglik:3, sosyalHak:2, psikoloji:2 } }
 };
 
 const STAT_META = {
-  para:      { label: '💰 Para',       icon: '💰', cls: 'stat-para' },
-  egitim:    { label: '📚 Eğitim',     icon: '📚', cls: 'stat-egitim' },
-  saglik:    { label: '❤️ Sağlık',     icon: '❤️', cls: 'stat-saglik' },
-  sosyalHak: { label: '⚖️ Sosyal Hak', icon: '⚖️', cls: 'stat-sosyalHak' },
-  psikoloji: { label: '🧠 Psikoloji',  icon: '🧠', cls: 'stat-psikoloji' }
+  para:      { label: 'Para',       icon: 'coins',       cls: 'stat-para' },
+  egitim:    { label: 'Eğitim',     icon: 'book-open',   cls: 'stat-egitim' },
+  saglik:    { label: 'Sağlık',     icon: 'heart-pulse', cls: 'stat-saglik' },
+  sosyalHak: { label: 'Sosyal Hak', icon: 'scale',       cls: 'stat-sosyalHak' },
+  psikoloji: { label: 'Psikoloji',  icon: 'brain',       cls: 'stat-psikoloji' }
 };
 
 const SQUARES = [
-  { id:0,  name:'BAŞLANGIÇ',      type:'start',       emoji:'🏁', color:'#22c55e', pos:[1,1],  eff:'' },
-  { id:1,  name:'BURS',           type:'opportunity', emoji:'🎓', color:'#16a34a', pos:[1,2],  eff:'Para≤1→+3 Eğt, diğer +1' },
-  { id:2,  name:'MENTOR',         type:'opportunity', emoji:'🤝', color:'#15803d', pos:[1,3],  eff:'+2 Eğitim' },
-  { id:3,  name:'İŞ FIRSATI',     type:'opportunity', emoji:'💼', color:'#16a34a', pos:[1,4],  eff:'+2 Para' },
-  { id:4,  name:'EKONOMİK KRİZ', type:'negative',    emoji:'📉', color:'#ea580c', pos:[1,5],  eff:'-1 Para' },
-  { id:5,  name:'EĞİTİM REFORMU',type:'conditional', emoji:'📖', color:'#ca8a04', pos:[1,6],  eff:'Eğt≥2→+1' },
-  { id:6,  name:'AYRIMCILIK',     type:'obstacle',    emoji:'⛔', color:'#dc2626', pos:[1,7],  eff:'-1 Sos.Hak' },
-  { id:7,  name:'SAĞLIK SORUNU', type:'obstacle',    emoji:'🏥', color:'#b91c1c', pos:[1,8],  eff:'-2 Sağlık' },
-  { id:8,  name:'MADDİ\nYET.',   type:'obstacle',    emoji:'💸', color:'#991b1b', pos:[1,9],  eff:'-2 Para' },
-  { id:9,  name:'SOSYAL HAKLAR', type:'corner',      emoji:'⚖️', color:'#1d4ed8', pos:[1,10], eff:'+1 Sos.Hak' },
-  { id:10, name:'SOSYAL PROJE',  type:'opportunity', emoji:'🤲', color:'#2563eb', pos:[2,10], eff:'+1 Sh +1 Psi' },
-  { id:11, name:'GİRİŞİM\nDEST.',type:'opportunity', emoji:'🚀', color:'#16a34a', pos:[3,10], eff:'+3 Para' },
-  { id:12, name:'TERFİ',         type:'opportunity', emoji:'📈', color:'#15803d', pos:[4,10], eff:'+3 Para' },
-  { id:13, name:'PANDEMİ',       type:'obstacle',    emoji:'🦠', color:'#7f1d1d', pos:[5,10], eff:'-1 Para -1 Sğ' },
-  { id:14, name:'BİTİŞ\nADALET',type:'end',         emoji:'🏛️', color:'#b45309', pos:[6,10], eff:'Tüm +1' },
-  { id:15, name:'NETWORK',       type:'opportunity', emoji:'🌐', color:'#16a34a', pos:[6,9],  eff:'+2 Sos.Hak' },
-  { id:16, name:'BAŞARI',        type:'opportunity', emoji:'🏆', color:'#15803d', pos:[6,8],  eff:'+2 Eğitim' },
-  { id:17, name:'TASARRUF',      type:'opportunity', emoji:'💰', color:'#a16207', pos:[6,7],  eff:'+1 Para +1 Psi' },
-  { id:18, name:'KRİZ',          type:'negative',    emoji:'📊', color:'#c2410c', pos:[6,6],  eff:'-1 Para' },
-  { id:19, name:'SOSYAL YARDIM', type:'opportunity', emoji:'🆘', color:'#166534', pos:[6,5],  eff:'Para≤1→+2, diğer +1' },
-  { id:20, name:'DEPREM',        type:'negative',    emoji:'🌍', color:'#c2410c', pos:[6,4],  eff:'-1 Sağlık' },
-  { id:21, name:'İŞTEN\nÇIK.',  type:'obstacle',    emoji:'🚪', color:'#991b1b', pos:[6,3],  eff:'-2 Para' },
-  { id:22, name:'AİLE BASKISI', type:'obstacle',    emoji:'👪', color:'#b91c1c', pos:[6,2],  eff:'-1 Eğitim' },
-  { id:23, name:'SİSTEM',        type:'system_draw', emoji:'⚙️', color:'#6d28d9', pos:[6,1],  eff:'Kart çek!' },
-  { id:24, name:'PSİKOLOJİK\nDAY.', type:'special', emoji:'🧠', color:'#7c3aed', pos:[5,1],  eff:'Psi≥3→+1, yoksa 1 tur atla' },
-  { id:25, name:'STAJ',          type:'opportunity', emoji:'📋', color:'#16a34a', pos:[4,1],  eff:'+1 Eğt +1 Sh' },
-  { id:26, name:'SAĞLIK',        type:'opportunity', emoji:'💊', color:'#15803d', pos:[3,1],  eff:'+1 Sağlık' }
+  { id:0,  name:'BAŞLANGIÇ',      type:'start',       icon:'flag',           color:'#22c55e', pos:[1,1],  eff:'' },
+  { id:1,  name:'BURS',           type:'opportunity', icon:'graduation-cap', color:'#16a34a', pos:[1,2],  eff:'Para≤1→+3 Eğt, diğer +1' },
+  { id:2,  name:'MENTOR',         type:'opportunity', icon:'handshake',      color:'#15803d', pos:[1,3],  eff:'+2 Eğitim' },
+  { id:3,  name:'İŞ FIRSATI',     type:'opportunity', icon:'briefcase',      color:'#16a34a', pos:[1,4],  eff:'+2 Para' },
+  { id:4,  name:'EKONOMİK KRİZ', type:'negative',    icon:'trending-down',  color:'#ea580c', pos:[1,5],  eff:'-1 Para' },
+  { id:5,  name:'EĞİTİM REFORMU',type:'conditional', icon:'book-open',      color:'#ca8a04', pos:[1,6],  eff:'Eğt≥2→+1' },
+  { id:6,  name:'AYRIMCILIK',     type:'obstacle',    icon:'ban',            color:'#dc2626', pos:[1,7],  eff:'-1 Sos.Hak' },
+  { id:7,  name:'SAĞLIK SORUNU', type:'obstacle',    icon:'stethoscope',    color:'#b91c1c', pos:[1,8],  eff:'-2 Sağlık' },
+  { id:8,  name:'MADDİ\nYET.',   type:'obstacle',    icon:'banknote-x',     color:'#991b1b', pos:[1,9],  eff:'-2 Para' },
+  { id:9,  name:'SOSYAL HAKLAR', type:'corner',      icon:'scale',          color:'#1d4ed8', pos:[1,10], eff:'+1 Sos.Hak' },
+  { id:10, name:'SOSYAL PROJE',  type:'opportunity', icon:'hand-heart',     color:'#2563eb', pos:[2,10], eff:'+1 Sh +1 Psi' },
+  { id:11, name:'GİRİŞİM\nDEST.',type:'opportunity', icon:'rocket',         color:'#16a34a', pos:[3,10], eff:'+3 Para' },
+  { id:12, name:'TERFİ',         type:'opportunity', icon:'trending-up',    color:'#15803d', pos:[4,10], eff:'+3 Para' },
+  { id:13, name:'PANDEMİ',       type:'obstacle',    icon:'biohazard',      color:'#7f1d1d', pos:[5,10], eff:'-1 Para -1 Sğ' },
+  { id:14, name:'BİTİŞ\nADALET',type:'end',         icon:'landmark',       color:'#b45309', pos:[6,10], eff:'Tüm +1' },
+  { id:15, name:'NETWORK',       type:'opportunity', icon:'network',        color:'#16a34a', pos:[6,9],  eff:'+2 Sos.Hak' },
+  { id:16, name:'BAŞARI',        type:'opportunity', icon:'trophy',         color:'#15803d', pos:[6,8],  eff:'+2 Eğitim' },
+  { id:17, name:'TASARRUF',      type:'opportunity', icon:'piggy-bank',     color:'#a16207', pos:[6,7],  eff:'+1 Para +1 Psi' },
+  { id:18, name:'KRİZ',          type:'negative',    icon:'chart-no-axes-decreasing', color:'#c2410c', pos:[6,6],  eff:'-1 Para' },
+  { id:19, name:'SOSYAL YARDIM', type:'opportunity', icon:'life-buoy',      color:'#166534', pos:[6,5],  eff:'Para≤1→+2, diğer +1' },
+  { id:20, name:'DEPREM',        type:'negative',    icon:'mountain',       color:'#c2410c', pos:[6,4],  eff:'-1 Sağlık' },
+  { id:21, name:'İŞTEN\nÇIK.',  type:'obstacle',    icon:'door-open',      color:'#991b1b', pos:[6,3],  eff:'-2 Para' },
+  { id:22, name:'AİLE BASKISI', type:'obstacle',    icon:'users',          color:'#b91c1c', pos:[6,2],  eff:'-1 Eğitim' },
+  { id:23, name:'SİSTEM',        type:'system_draw', icon:'cog',            color:'#6d28d9', pos:[6,1],  eff:'Kart çek!' },
+  { id:24, name:'PSİKOLOJİK\nDAY.', type:'special', icon:'brain',          color:'#7c3aed', pos:[5,1],  eff:'Psi≥3→+1, yoksa 1 tur atla' },
+  { id:25, name:'STAJ',          type:'opportunity', icon:'clipboard-list', color:'#16a34a', pos:[4,1],  eff:'+1 Eğt +1 Sh' },
+  { id:26, name:'SAĞLIK',        type:'opportunity', icon:'pill',           color:'#15803d', pos:[3,1],  eff:'+1 Sağlık' }
 ];
 
 const DICE_FACES = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+
+// ── Icon helpers ──────────────────────────────────────────────
+function icon(name, cls = '') {
+  return `<i data-lucide="${name}" class="lucide-icon ${cls}"></i>`;
+}
+function refreshIcons() {
+  if (window.lucide) lucide.createIcons();
+}
+// Kare için icon — server'dan gelen msg.square.id üzerinden client SQUARES'a bak
+function squareIcon(squareId, color) {
+  const sq = SQUARES.find(s => s.id === squareId);
+  const name = sq?.icon || 'circle';
+  return `<i data-lucide="${name}" class="sq-modal-icon" style="color:${color || '#fff'}"></i>`;
+}
 
 // ============================================================
 // APP STATE
@@ -219,13 +233,14 @@ function renderWaiting() {
     card.className = `char-card${taken ? ' taken' : ''}${isMine ? ' mine selected' : ''}`;
     card.innerHTML = `
       ${taken ? `<div class="taken-badge">${takenBy?.name || 'Alındı'}</div>` : ''}
-      <span class="char-emoji">${ch.emoji}</span>
+      <div class="char-avatar" style="--char-color:${ch.color}">
+        <i data-lucide="${ch.cardIcon}" class="char-avatar-icon"></i>
+      </div>
       <div class="char-name">${ch.name}</div>
-      <div class="char-desc">${ch.stats ? '' : ''}</div>
       <div class="char-stats">
         ${Object.entries(ch.stats).map(([stat,val]) => `
           <span class="stat-badge ${val >= 4 ? 'high' : val <= 1 ? 'low' : ''}">
-            ${STAT_META[stat].icon} ${val}
+            <i data-lucide="${STAT_META[stat].icon}" class="stat-badge-icon"></i>${val}
           </span>
         `).join('')}
       </div>
@@ -261,6 +276,7 @@ function renderWaiting() {
       ? '✅ Herkes hazır! Başlatabilirsin.'
       : 'Tüm oyuncular karakter seçince başlatabilirsin.';
   }
+  refreshIcons();
 }
 
 document.getElementById('btn-copy-code').addEventListener('click', () => {
@@ -305,14 +321,16 @@ function buildBoard() {
     el.title = sq.name.replace('\n', ' ') + (sq.eff ? ' → ' + sq.eff : '');
 
     el.innerHTML = `
-      <span class="square-emoji">${sq.emoji}</span>
+      <span class="square-icon-wrap">
+        <i data-lucide="${sq.icon}" class="square-svg-icon" style="color:${sq.color}"></i>
+      </span>
       <span class="square-name">${sq.name}</span>
-      ${sq.eff ? `<span class="square-effect">${sq.eff}</span>` : ''}
       <div class="tokens-wrap" id="tokens-sq-${sq.id}"></div>
     `;
     board.appendChild(el);
   });
 
+  refreshIcons();
   // Place tokens initially
   updateTokenPositions(STATE.players);
 }
@@ -408,7 +426,10 @@ function renderPlayerStats() {
           const pct = Math.min(100, (val / 8) * 100);
           return `
             <div class="ps-stat-row">
-              <span class="ps-stat-label">${m.icon} ${key === 'sosyalHak' ? 'Sos.Hak' : key.charAt(0).toUpperCase() + key.slice(1)}</span>
+              <span class="ps-stat-label">
+                <i data-lucide="${m.icon}" class="lucide-icon ps-stat-icon ${m.cls}-icon"></i>
+                ${key === 'sosyalHak' ? 'S.Hak' : m.label}
+              </span>
               <div class="ps-stat-bar"><div class="ps-stat-fill ${m.cls}" style="width:${pct}%"></div></div>
               <span class="ps-stat-val">${val}</span>
             </div>
@@ -420,6 +441,7 @@ function renderPlayerStats() {
     `;
     list.appendChild(item);
   });
+  refreshIcons();
 }
 
 function renderMyStats() {
@@ -432,15 +454,18 @@ function renderMyStats() {
     const pct = Math.min(100, (val / 8) * 100);
     return `
       <div class="my-stat-row">
-        <span class="my-stat-icon">${m.icon}</span>
+        <span class="my-stat-icon">
+          <i data-lucide="${m.icon}" class="lucide-icon my-stat-lucide ${m.cls}-icon"></i>
+        </span>
         <div class="my-stat-info">
-          <div class="my-stat-name">${key === 'sosyalHak' ? 'Sosyal Hak' : key.charAt(0).toUpperCase() + key.slice(1)}</div>
+          <div class="my-stat-name">${m.label}</div>
           <div class="my-stat-bar"><div class="my-stat-fill ${m.cls}" style="width:${pct}%"></div></div>
         </div>
         <span class="my-stat-val">${val}</span>
       </div>
     `;
   }).join('');
+  refreshIcons();
 }
 
 function updateDiceButton() {
@@ -599,7 +624,7 @@ function showEffectModal(msg) {
   const sq = msg.square;
   const effects = msg.squareEffects || [];
 
-  document.getElementById('modal-emoji').textContent = sq.emoji;
+  document.getElementById('modal-emoji').innerHTML = squareIcon(sq.id, sq.color);
   document.getElementById('modal-square-name').textContent = sq.name;
   document.getElementById('modal-desc').textContent = sq.desc || '';
 
@@ -611,15 +636,18 @@ function showEffectModal(msg) {
       const m = STAT_META[e.stat];
       const sign = e.change > 0 ? '+' : '';
       const cls = e.change > 0 ? 'positive' : e.change < 0 ? 'negative' : 'neutral';
-      return `<span class="effect-chip ${cls}">${m?.icon || ''} ${m ? m.label.split(' ')[1] : e.stat} ${sign}${e.change} (${e.from}→${e.to})</span>`;
+      return `<span class="effect-chip ${cls}">
+        <i data-lucide="${m?.icon || 'circle'}" class="lucide-icon effect-chip-icon"></i>
+        ${m ? m.label : e.stat} ${sign}${e.change} (${e.from}→${e.to})
+      </span>`;
     }).join('');
   }
 
-  // Colour modal border by type
   const modal = document.getElementById('effect-card');
   modal.style.borderColor = sq.color || 'var(--border)';
 
   document.getElementById('effect-modal').classList.remove('hidden');
+  refreshIcons();
 }
 
 document.getElementById('modal-close').addEventListener('click', () => {
@@ -633,7 +661,7 @@ function showSystemModal(msg) {
   const card = msg.systemCard;
   const effects = msg.systemEffects || {};
 
-  document.getElementById('sys-emoji').textContent = card.emoji;
+  document.getElementById('sys-emoji').innerHTML = `<i data-lucide="cog" class="lucide-icon sys-card-icon"></i>`;
   document.getElementById('sys-name').textContent = card.name;
   document.getElementById('sys-desc').textContent = card.description;
 
@@ -644,21 +672,28 @@ function showSystemModal(msg) {
     const hasEff = pEffects.length > 0;
     return `
       <div class="sys-effect-row ${hasEff ? 'has-effect' : ''}">
-        <div class="player-name">${ch?.emoji || ''} ${p.name}</div>
+        <div class="player-name">
+          <span class="sys-player-token" style="background:${ch?.color || '#555'}">${ch?.emoji || '?'}</span>
+          ${p.name}
+        </div>
         <div class="effect-line">
           ${hasEff
             ? pEffects.map(e => {
                 const m = STAT_META[e.stat];
                 const sign = e.change > 0 ? '+' : '';
-                return `${m?.icon || ''} ${sign}${e.change} (${e.from}→${e.to})`;
+                return `<span class="${e.change > 0 ? 'eff-pos' : 'eff-neg'}">
+                  <i data-lucide="${m?.icon || 'circle'}" class="lucide-icon eff-icon"></i>
+                  ${sign}${e.change}
+                </span>`;
               }).join(' ')
-            : 'Etkilenmedi'}
+            : '<span class="eff-neutral">—</span>'}
         </div>
       </div>
     `;
   }).join('');
 
   document.getElementById('system-modal').classList.remove('hidden');
+  refreshIcons();
 
   // Add to log
   addLog(`⚙️ SİSTEM: ${card.name} — herkesi etkiliyor!`, 'system');
@@ -702,18 +737,21 @@ function showGameOver(scores) {
               const diff = finalVal - startVal;
               return `
                 <div class="score-stat">
-                  <span>${m.icon}</span>
+                  <i data-lucide="${m.icon}" class="lucide-icon score-stat-icon ${m.cls}-icon"></i>
                   <span class="sval">${finalVal}</span>
                   <span class="sdiff ${diff >= 0 ? 'pos' : 'neg'}">${diff >= 0 ? '+' : ''}${diff}</span>
                 </div>
               `;
             }).join('')}
           </div>
-          <div class="score-obstacle">⛔ ${s.obstacleCount} engel kartı</div>
+          <div class="score-obstacle">
+            <i data-lucide="shield-x" class="lucide-icon"></i> ${s.obstacleCount} engel
+          </div>
         </div>
       </div>
     `;
   }).join('');
+  setTimeout(refreshIcons, 50);
 }
 
 document.getElementById('btn-play-again').addEventListener('click', () => {

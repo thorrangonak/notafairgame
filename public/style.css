@@ -427,7 +427,7 @@ input[type="text"]::placeholder { color: #4a5568; }
   overflow: hidden;
 }
 
-.square-emoji { font-size: 1.2rem; line-height: 1; }
+.square-emoji { font-size: 1.2rem; line-height: 1; display: none; }
 .square-name {
   font-size: 0.48rem;
   font-weight: 700;
@@ -783,6 +783,132 @@ input[type="text"]::placeholder { color: #4a5568; }
 .stat-saglik  { background: linear-gradient(90deg, #22c55e, #16a34a); }
 .stat-sosyalHak { background: linear-gradient(90deg, #a855f7, #9333ea); }
 .stat-psikoloji { background: linear-gradient(90deg, #ec4899, #db2777); }
+
+/* ============================================================ LUCIDE ICONS */
+
+.lucide-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.lucide-icon svg { display: block; }
+
+/* Stat icon colors */
+.stat-para-icon      { color: #f59e0b; }
+.stat-egitim-icon    { color: #3b82f6; }
+.stat-saglik-icon    { color: #22c55e; }
+.stat-sosyalHak-icon { color: #a855f7; }
+.stat-psikoloji-icon { color: #ec4899; }
+
+/* ── Character Avatar (Waiting Room) ───────────────────────── */
+.char-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--bg3);
+  border: 2px solid var(--char-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px;
+  box-shadow: 0 0 14px rgba(0,0,0,0.4), 0 0 0 0 var(--char-color);
+  transition: box-shadow 0.3s;
+}
+.char-card.selected .char-avatar,
+.char-card.mine .char-avatar {
+  box-shadow: 0 0 0 3px var(--char-color), 0 0 20px rgba(0,0,0,0.5);
+}
+.char-card.taken .char-avatar { opacity: 0.5; }
+.char-avatar-icon { color: var(--char-color) !important; }
+.char-avatar-icon svg { width: 28px; height: 28px; }
+
+/* Stat badge icon */
+.stat-badge-icon { display: inline-flex; vertical-align: middle; }
+.stat-badge-icon svg { width: 10px; height: 10px; margin-right: 2px; }
+
+/* ── Board Square Icons ─────────────────────────────────────── */
+.square-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(0,0,0,0.25);
+  flex-shrink: 0;
+}
+.square-svg-icon { display: flex; align-items: center; justify-content: center; }
+.square-svg-icon svg { width: 16px; height: 16px; stroke-width: 2; }
+
+/* ── Player Stats Panel Icons ───────────────────────────────── */
+.ps-stat-icon { flex-shrink: 0; }
+.ps-stat-icon svg { width: 10px; height: 10px; }
+.ps-stat-label {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* ── My Stats Panel Icons ───────────────────────────────────── */
+.my-stat-lucide { display: flex; }
+.my-stat-lucide svg { width: 18px; height: 18px; }
+
+/* ── Effect Modal Icon ──────────────────────────────────────── */
+.sq-modal-icon { display: flex; align-items: center; justify-content: center; }
+.sq-modal-icon svg { width: 48px; height: 48px; stroke-width: 1.5; }
+#modal-emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.effect-chip-icon { margin-right: 4px; }
+.effect-chip-icon svg { width: 12px; height: 12px; }
+
+/* ── System Modal Icon ──────────────────────────────────────── */
+.sys-card-icon { display: flex; }
+.sys-card-icon svg { width: 40px; height: 40px; color: #a855f7; stroke-width: 1.5; }
+
+.sys-player-token {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  margin-right: 4px;
+  border: 1px solid rgba(255,255,255,0.3);
+  flex-shrink: 0;
+}
+.eff-pos { color: #86efac; display: inline-flex; align-items: center; gap: 2px; font-weight: 700; }
+.eff-neg { color: #fca5a5; display: inline-flex; align-items: center; gap: 2px; font-weight: 700; }
+.eff-neutral { color: var(--text2); }
+.eff-icon svg { width: 10px; height: 10px; }
+
+/* ── Score Card Icons ───────────────────────────────────────── */
+.score-stat-icon { margin-right: 2px; }
+.score-stat-icon svg { width: 14px; height: 14px; }
+.score-stat { display: flex; align-items: center; gap: 4px; }
+
+/* ── Responsive icon size tweaks ────────────────────────────── */
+@media (max-width: 860px) {
+  .square-icon-wrap { width: 26px; height: 26px; border-radius: 6px; }
+  .square-svg-icon svg { width: 14px; height: 14px; }
+}
+@media (max-width: 560px) {
+  .square-icon-wrap { width: 20px; height: 20px; border-radius: 5px; }
+  .square-svg-icon svg { width: 11px; height: 11px; }
+  .char-avatar { width: 48px; height: 48px; }
+  .char-avatar-icon svg { width: 22px; height: 22px; }
+}
+@media (max-width: 380px) {
+  .square-icon-wrap { width: 16px; height: 16px; border-radius: 4px; }
+  .square-svg-icon svg { width: 9px; height: 9px; }
+}
 
 /* ============================================================ RESPONSIVE */
 
