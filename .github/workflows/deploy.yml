@@ -1,0 +1,45 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deploy → notafairgame
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Sync files to server
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --exclude='.env' \
+            --exclude='.github' \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            ./ root@${{ secrets.SERVER_IP }}:/opt/notafairgame/
+
+      - name: Install deps & restart
+        run: |
+          ssh -i ~/.ssh/deploy_key root@${{ secrets.SERVER_IP }} << 'ENDSSH'
+            set -e
+            cd /opt/notafairgame
+            npm ci --omit=dev
+            pm2 describe notafairgame > /dev/null 2>&1 \
+              && pm2 restart notafairgame \
+              || pm2 start server.js --name notafairgame --update-env
+            pm2 save
+            echo "✅ Deploy tamamlandı!"
+            pm2 show notafairgame
+          ENDSSH

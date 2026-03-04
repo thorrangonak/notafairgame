@@ -1,0 +1,15 @@
+{
+  "name": "not-a-fair-game",
+  "version": "1.0.0",
+  "description": "Toplumsal eşitsizliği deneyimleten çok oyunculu masa oyunu",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0",
+    "ws": "^8.16.0"
+  }
+}

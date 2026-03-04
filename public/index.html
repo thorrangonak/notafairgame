@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎲 Not A Fair Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== SCREEN: LOBBY ===== -->
+  <div id="screen-lobby" class="screen active">
+    <div class="lobby-container">
+      <div class="logo-wrap">
+        <h1 class="logo-main">NOT A FAIR GAME</h1>
+        <p class="logo-sub">⚖️ ADALET</p>
+        <p class="logo-desc">Toplumsal eşitsizliği deneyimle. Eşit kurallar, eşit başlangıç anlamına gelmez.</p>
+      </div>
+
+      <div class="lobby-card">
+        <div class="input-group">
+          <label>Oyuncu Adın</label>
+          <input id="player-name" type="text" placeholder="Adını gir..." maxlength="16" autocomplete="off">
+        </div>
+
+        <div class="lobby-buttons">
+          <button class="btn btn-primary" id="btn-create">🏠 Oda Oluştur</button>
+          <div class="divider"><span>ya da</span></div>
+          <div class="join-row">
+            <input id="room-code-input" type="text" placeholder="Oda kodu..." maxlength="5" autocomplete="off">
+            <button class="btn btn-secondary" id="btn-join">🚪 Katıl</button>
+          </div>
+        </div>
+
+        <div id="lobby-error" class="error-msg hidden"></div>
+      </div>
+
+      <p class="lobby-hint">Max 6 oyuncu • Aynı ağda veya internet üzerinden</p>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: WAITING ROOM ===== -->
+  <div id="screen-waiting" class="screen">
+    <div class="waiting-container">
+      <div class="room-info">
+        <span class="room-label">ODA KODU</span>
+        <span class="room-code" id="display-room-code">-----</span>
+        <button class="btn-icon" id="btn-copy-code" title="Kodu kopyala">📋</button>
+      </div>
+
+      <h2 class="waiting-title">Karakter Seç</h2>
+      <p class="waiting-hint">Her oyuncu farklı başlangıç koşullarıyla başlar...</p>
+
+      <div class="character-grid" id="character-grid"></div>
+
+      <div class="player-list-wrap">
+        <h3>Oyuncular</h3>
+        <div class="player-list" id="waiting-player-list"></div>
+      </div>
+
+      <div id="waiting-error" class="error-msg hidden"></div>
+      <button class="btn btn-primary btn-big hidden" id="btn-start">🎮 Oyunu Başlat</button>
+      <p class="waiting-host-note hidden" id="host-note">Tüm oyuncular karakter seçince başlatabilirsin</p>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: GAME ===== -->
+  <div id="screen-game" class="screen">
+    <div class="game-layout">
+
+      <!-- LEFT PANEL -->
+      <div class="panel panel-left">
+        <div class="panel-section">
+          <div class="turn-badge" id="turn-badge">Sıra yükleniyor...</div>
+          <div class="round-info" id="round-info">Tur 1 / 12</div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-title">👥 Oyuncular</h3>
+          <div id="player-stats-list"></div>
+        </div>
+
+        <div class="panel-section">
+          <h3 class="panel-title">📜 Oyun Günlüğü</h3>
+          <div id="game-log"></div>
+        </div>
+      </div>
+
+      <!-- BOARD CENTER -->
+      <div class="board-wrap">
+        <div class="board" id="board"></div>
+      </div>
+
+      <!-- RIGHT PANEL -->
+      <div class="panel panel-right">
+        <div class="panel-section my-stats-section">
+          <h3 class="panel-title">📊 Senin Statsın</h3>
+          <div id="my-stats"></div>
+        </div>
+
+        <div class="panel-section dice-section">
+          <div class="dice-wrap" id="dice-wrap">
+            <div class="dice" id="dice">
+              <div class="face front">⚀</div>
+            </div>
+            <div class="dice-value" id="dice-value"></div>
+          </div>
+          <button class="btn btn-dice" id="btn-roll" disabled>🎲 Zar At</button>
+          <div id="my-turn-note" class="turn-note"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN: GAME OVER ===== -->
+  <div id="screen-gameover" class="screen">
+    <div class="gameover-container">
+      <div class="gameover-header">
+        <div class="gameover-icon">⚖️</div>
+        <h1>Oyun Bitti!</h1>
+        <p class="gameover-subtitle">Başlangıç koşulları sonucu nasıl etkiledi?</p>
+      </div>
+
+      <div class="scores-list" id="scores-list"></div>
+
+      <div class="gameover-insight">
+        <h3>💡 Farkındalık</h3>
+        <p>Bu oyun, hayatın herkese aynı şekilde başlamadığını gösteriyor.
+        Eşit kurallar altında oynandı — ama başlangıç farkları belirleyici oldu.</p>
+      </div>
+
+      <button class="btn btn-primary btn-big" id="btn-play-again">🔄 Tekrar Oyna</button>
+    </div>
+  </div>
+
+  <!-- ===== EFFECT MODAL ===== -->
+  <div id="effect-modal" class="modal-overlay hidden">
+    <div class="modal-card" id="effect-card">
+      <div class="modal-emoji" id="modal-emoji"></div>
+      <div class="modal-square-name" id="modal-square-name"></div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div class="modal-effects" id="modal-effects"></div>
+      <button class="btn btn-primary" id="modal-close">✓ Tamam</button>
+    </div>
+  </div>
+
+  <!-- ===== SYSTEM CARD MODAL ===== -->
+  <div id="system-modal" class="modal-overlay hidden">
+    <div class="modal-card system-card-modal" id="system-card-modal">
+      <div class="system-card-header">
+        <span class="system-card-emoji" id="sys-emoji"></span>
+        <span class="system-badge">⚙️ SİSTEM KARTI</span>
+      </div>
+      <div class="system-card-name" id="sys-name"></div>
+      <div class="system-card-desc" id="sys-desc"></div>
+      <div class="system-effects-grid" id="sys-effects-grid"></div>
+      <button class="btn btn-primary" id="system-modal-close">✓ Anladım</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
